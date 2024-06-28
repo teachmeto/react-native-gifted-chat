@@ -8,6 +8,7 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
+  Keyboard,
 } from 'react-native'
 import Color from './Color'
 import { StylePropType } from './utils'
@@ -22,6 +23,7 @@ export interface ActionsProps {
   iconTextStyle?: StyleProp<TextStyle>
   containerStyle?: StyleProp<ViewStyle>
   onPressActionButton?(): void
+  hideKeyboardOnActionPress?: boolean
 }
 
 export function Actions ({
@@ -32,10 +34,12 @@ export function Actions ({
   iconTextStyle,
   onPressActionButton,
   containerStyle,
+  hideKeyboardOnActionPress=true
 }: ActionsProps) {
   const { actionSheet } = useChatContext()
 
   const onActionsPress = useCallbackOne(() => {
+    hideKeyboardOnActionPress && Keyboard.dismiss()
     const optionKeys = Object.keys(options)
     const cancelButtonIndex = optionKeys.indexOf('Cancel')
 
